@@ -19,6 +19,7 @@ export type Database = {
           questionNumber: number | null
           title: string | null
           topic: number | null
+          discussionHtml: string | null
         }
         Insert: {
           created_at?: string
@@ -29,6 +30,7 @@ export type Database = {
           questionNumber?: number | null
           title?: string | null
           topic?: number | null
+          discussionHtml?: string | null
         }
         Update: {
           created_at?: string
@@ -39,6 +41,7 @@ export type Database = {
           questionNumber?: number | null
           title?: string | null
           topic?: number | null
+          discussionHtml?: string | null
         }
         Relationships: []
       }

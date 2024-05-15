@@ -1,6 +1,5 @@
 import { createError } from 'h3'
 import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server'
-import { load } from 'cheerio';
 import { Database } from '@/types/database.types';
 
 export default defineEventHandler(async (event) => {
@@ -9,17 +8,9 @@ export default defineEventHandler(async (event) => {
   if (!exam) {
     throw createError({ statusMessage: 'Exam not found', statusCode: 404 })
   }
-  const { data, error } = await client.from('questions').select('*').ilike('exam', exam)
+  const { data, error } = await client.from('questions').select('*').ilike('exam', exam).order('topic', { ascending: true }).order('questionNumber', { ascending: true })
   if (error) {
     throw createError({ statusMessage: error.message, statusCode: 500 })
   }
-
-  data.forEach((question) => {
-    const $ = load(question.html || '')
-    return {
-      ...question,
-      questionHtml: $('div.full-width-header').remove().end().html()
-    }
-  })
   return data
 })

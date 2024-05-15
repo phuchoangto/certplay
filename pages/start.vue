@@ -16,6 +16,7 @@ import { columns } from '@/components/columns'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useExamStore } from '@/stores/exam'
+import { onKeyStroke } from '@vueuse/core'
 
 const examStore = useExamStore()
 const router = useRouter()
@@ -69,6 +70,40 @@ const handleRevealSolution = () => {
   const iframe = document.getElementById('iframe') as HTMLIFrameElement
   iframe.contentWindow?.postMessage(isRevealSolution.value ? 'hide-solution' : 'reveal-solution', '*')
   isRevealSolution.value = !isRevealSolution.value
+}
+
+const isDiscussionVisible = ref(false)
+
+const handleNextQuestion = () => {
+  examStore.nextQuestion()
+  isRevealSolution.value = false
+}
+
+const handlePreviousQuestion = () => {
+  examStore.previousQuestion()
+  isRevealSolution.value = false
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleGlobalKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleGlobalKeydown);
+});
+
+const handleGlobalKeydown = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case '3':
+      handleNextQuestion()
+      break
+    case '1':
+      handlePreviousQuestion()
+      break
+    case '2':
+      handleRevealSolution()
+      break
+  }
 }
 </script>
 
@@ -164,9 +199,21 @@ const handleRevealSolution = () => {
       <main :class="{ 'flex flex-1 items-center justify-center': !isStarted, 'flex flex-1 flex-col': isStarted }">
         <LoaderCircle class="animate-spin" v-if="pending" />
         <div v-else-if="isStarted" class="flex flex-1 flex-col">
-          <iframe :srcdoc="examStore.selectedQuestions[0].html" class="w-full h-full px-4" id="iframe"></iframe>
-          <div class="p-4 border">
-            <Button @click="handleRevealSolution">Reveal solution</Button>
+          <iframe :srcdoc="examStore.selectedQuestions[examStore.currentQuestionIndex].html" class="w-full h-full px-4"
+            id="iframe"></iframe>
+          <div class="p-4 border flex justify-center gap-4">
+            <Button @click="handlePreviousQuestion">Previous</Button>
+            <Sheet>
+              <SheetTrigger>
+                <Button>Discuss</Button>
+              </SheetTrigger>
+              <SheetContent class="w-[400px] sm:w-[540px] sm:max-w-[750px]">
+                <iframe :srcdoc="examStore.selectedQuestions[examStore.currentQuestionIndex].discussionHtml"
+                      class="w-full h-full px-4" id="iframe"></iframe>
+              </SheetContent>
+            </Sheet>
+            <Button @click="handleRevealSolution" >Reveal solution</Button>
+            <Button @click="handleNextQuestion">Next</Button>
           </div>
         </div>
         <Card class="w-[760px]" v-else>

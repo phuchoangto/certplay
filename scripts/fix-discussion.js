@@ -26,7 +26,7 @@ if (questions) {
       let html = question.html;
       html = html.replace(/\=\"\/assets/g, '="https://www.examtopics.com/assets');
 
-
+      
       const $ = load(html);
 
       // Remove unwanted elements
@@ -37,29 +37,19 @@ if (questions) {
       $("div.container div.row").first().remove();
       $("div.container div.row").first().remove();
       $("div.container div.row").first().remove();
-      $("div.discussion-page-comments-section").remove();
+      $("div.discussion-header-container").remove();
+      $("div.create-comment-base").remove();
       $("div.sec-spacer").removeClass("sec-spacer pt-50");
-      $("div.discussion-header-container").removeClass(
-        "discussion-header-container"
-      );
-      $("head").append(`<style>.reveal-solution, .hide-solution {display: none !important;}</style>`);
       $("div.discussion-meta-data").remove();
       $("div.container").removeClass("container");
-
-      // add custom script
-      $("body").append(`<script>window.addEventListener('message', (event) => {
-        if (event.data === 'reveal-solution') {
-            window.document.querySelector('a.reveal-solution').click()
-        }
-        if (event.data === 'hide-solution') {
-          window.document.querySelector('a.hide-solution').click()
-      }
-    });</script>`);
+      $("div.comments-container").removeClass("p-2");
+      $("div.comments-container").addClass("p-4");
+      $("#comment-section-title").parent().remove();
 
       console.log(`Updating question ${question.title}`);
       const { error: updateError } = await supabase
         .from("questions")
-        .update({ html: $.html() })
+        .update({ discussionHtml: $.html() })
         .eq("id", question.id);
 
       if (updateError) {
