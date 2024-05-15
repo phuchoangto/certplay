@@ -9,6 +9,11 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@pinia/nuxt"
   ],
+  eslint: {
+    config: {
+      stylistic: true
+    }
+  },
   supabase: {
     redirect: false,
     redirectOptions: {
