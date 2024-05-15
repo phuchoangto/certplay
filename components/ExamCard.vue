@@ -18,14 +18,27 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Separator } from '@/components/ui/separator'
+import { useExamStore } from '@/stores/exam'
+
+const router = useRouter()
 
 const props = defineProps({
-  exam: String
+  exam: {
+    type: String,
+    required: true,
+  }
 });
+
+const examStore = useExamStore()
+
+const selectExam = () => {
+  examStore.setExam(props.exam)
+  router.push('/start')
+}
 </script>
 
 <template>
-  <Card class="hover:bg-accent cursor-pointer">
+  <Card class="hover:bg-accent cursor-pointer" @click="selectExam">
     <CardHeader>
         <CardTitle>
           {{ props.exam }}

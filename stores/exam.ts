@@ -1,30 +1,20 @@
 export const useExamStore = defineStore('examStore', {
   state: () => ({
     exam: '',
-    mode: '',
-    from: 0,
-    to: 0,
-    take: 0,
-    shuffle: false,
+    selectBy: '',
+    selectedQuestions: [] as Question[]
   }),
   actions: {
     setExam(exam: string) {
       this.exam = exam
     },
-    setMode(mode: string) {
-      this.mode = mode
+    setSelectBy(selectBy: string) {
+      this.selectBy = selectBy
     },
-    setFrom(from: number) {
-      this.from = from
-    },
-    setTo(to: number) {
-      this.to = to
-    },
-    setTake(take: number) {
-      this.take = take
-    },
-    setShuffle(shuffle: boolean) {
-      this.shuffle = shuffle
-    },
+    setSelectedQuestions(questions: Question[]) {
+      this.selectedQuestions = questions
+    }
+  },
+  getters: {
   },
 })
