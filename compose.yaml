@@ -7,5 +7,6 @@ services:
       - "${PORT:-3000}:3000"
     environment:
       - NODE_ENV=production
-    dns:
-      - 8.8.8.8
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - PORT=${PORT:-3000}
