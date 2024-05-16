@@ -16,8 +16,6 @@ export default defineNuxtConfig({
   },
   supabase: {
     redirect: false,
-    url: import.meta.env.NUXT_SUPABASE_URL,
-    key: import.meta.env.NUXT_SUPABASE_KEY,
     redirectOptions: {
       login: '/',
       callback: '/confirm',
