@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleX, LoaderCircle } from 'lucide-vue-next'
+import { CircleX, LoaderCircle, BellRing } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -33,6 +33,7 @@ const selectBy = ref('range')
 const from = ref(0)
 const to = ref(60)
 const isStarted = ref(false)
+const isExamMode = ref(false)
 
 watch(selectBy, (value) => examStore.setSelectBy(value))
 
@@ -60,6 +61,11 @@ const handleStart = async () => {
     selectedQuestions.value = questions.value || []
   } else if (selectBy.value === 'range') {
     selectedQuestions.value = questions.value?.slice(from.value, to.value) || []
+  }
+
+  // shuffle questions
+  if (isExamMode.value) {
+    selectedQuestions.value = selectedQuestions.value.sort(() => Math.random() - 0.5)
   }
 
   examStore.setSelectedQuestions(selectedQuestions.value)
@@ -101,6 +107,10 @@ const handleGlobalKeydown = (event: KeyboardEvent) => {
 
 onMounted(() => window.addEventListener('keydown', handleGlobalKeydown))
 onUnmounted(() => window.removeEventListener('keydown', handleGlobalKeydown))
+
+const handleSwitch = (value: boolean) => {
+  isExamMode.value = value
+}
 </script>
 
 <template>
@@ -134,12 +144,12 @@ onUnmounted(() => window.removeEventListener('keydown', handleGlobalKeydown))
         <CardContent>
           <div class="flex flex-col space-y-4">
             <div class="flex items-center space-x-4 rounded-md border p-4">
-              <!-- <BellRing /> -->
+              <BellRing />
               <div class="flex-1 space-y-1">
                 <p class="text-sm font-medium leading-none">Examination mode</p>
                 <p class="text-sm text-muted-foreground">Shuffle questions, use timer and score at the end</p>
               </div>
-              <!-- <Switch /> -->
+              <Switch :checked="isExamMode" @update:checked="handleSwitch" />
             </div>
             <fieldset class="grid gap-6 rounded-lg border p-4">
               <legend class="-ml-1 px-1 text-sm font-medium">Select questions</legend>
