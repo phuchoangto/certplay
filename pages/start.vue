@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LoaderCircle, BellRing, Bird, Book, Bot, Code2, CornerDownLeft, LifeBuoy, Mic, Paperclip, Rabbit, Settings, Settings2, Share, SquareTerminal, SquareUser, Triangle, Turtle } from 'lucide-vue-next'
+import { Bell,SquareTerminal, CircleX, LoaderCircle, CircleUser, Home, LineChart, Menu, Package, Package2, Search, ShoppingCart, Users, Triangle } from 'lucide-vue-next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -107,95 +107,116 @@ const handleGlobalKeydown = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="grid h-screen w-full pl-[56px]">
-    <aside class="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
-      <div class="border-b p-2">
+  <div class="grid min-h-screen w-full md:grid-cols-[60px_1fr] lg:grid-cols-[60px_1fr]">
+    <div class="hidden border-r md:block">
+      <div class="flex items-center justify-center border-b h-[60px]">
         <Button variant="outline" size="icon" aria-label="Home">
           <Triangle class="size-5 fill-foreground" />
         </Button>
       </div>
-      <nav class="grid gap-1 p-2">
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon" class="rounded-lg bg-muted" aria-label="Playground">
+      <div class="flex-1">
+        <nav class="grid gap-1 p-2 justify-center">
+          <Button
+              variant="ghost"
+              size="icon"
+              class="rounded-lg bg-muted"
+              aria-label="Playground"
+            >
               <SquareTerminal class="size-5" />
             </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Playground
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Models">
-              <Bot class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Models
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon" class="rounded-lg" aria-label="API">
-              <Code2 class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            API
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Documentation">
-              <Book class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Documentation
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Settings">
-              <Settings2 class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Settings
-          </TooltipContent>
-        </Tooltip>
-      </nav>
-      <nav class="mt-auto grid gap-1 p-2">
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon" class="mt-auto rounded-lg" aria-label="Help">
-              <LifeBuoy class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Help
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon" class="mt-auto rounded-lg" aria-label="Account">
-              <SquareUser class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Account
-          </TooltipContent>
-        </Tooltip>
-      </nav>
-    </aside>
+        </nav>
+      </div>
+
+    </div>
     <div class="flex flex-col">
-      <header class="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
-        <h1 class="text-xl font-semibold">
-          Playground
-        </h1>
+      <header class="flex items-center gap-4 border-b px-4 h-[60px]">
+        <Sheet>
+          <SheetTrigger as-child>
+            <Button variant="outline" size="icon" class="shrink-0 md:hidden">
+              <Menu class="h-5 w-5" />
+              <span class="sr-only">Toggle navigation menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" class="flex flex-col">
+            <nav class="grid gap-2 text-lg font-medium">
+              <a href="#" class="flex items-center gap-2 text-lg font-semibold">
+                <Package2 class="h-6 w-6" />
+                <span class="sr-only">Acme Inc</span>
+              </a>
+              <a href="#"
+                class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground">
+                <Home class="h-5 w-5" />
+                Dashboard
+              </a>
+              <a href="#"
+                class="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground">
+                <ShoppingCart class="h-5 w-5" />
+                Orders
+                <Badge class="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                  6
+                </Badge>
+              </a>
+              <a href="#"
+                class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground">
+                <Package class="h-5 w-5" />
+                Products
+              </a>
+              <a href="#"
+                class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground">
+                <Users class="h-5 w-5" />
+                Customers
+              </a>
+              <a href="#"
+                class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground">
+                <LineChart class="h-5 w-5" />
+                Analytics
+              </a>
+            </nav>
+            <div class="mt-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Upgrade to Pro</CardTitle>
+                  <CardDescription>
+                    Unlock all features and get unlimited access to our
+                    support team.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button size="sm" class="w-full">
+                    Upgrade
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </SheetContent>
+        </Sheet>
+        <div class="w-full flex-1">
+          <form>
+            <div class="relative">
+              <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input type="search" placeholder="Search products..." v-model="search"
+                class="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3" />
+            </div>
+          </form>
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <Button variant="secondary" size="icon" class="rounded-full">
+              <CircleUser class="h-5 w-5" />
+              <span class="sr-only">Toggle user menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </header>
-      <main :class="{ 'flex flex-1 items-center justify-center': !isStarted, 'flex flex-1 flex-col': isStarted }">
+      <main class="flex flex-1 flex-col justify-center" :class="{'items-center': !isStarted}">
         <LoaderCircle class="animate-spin" v-if="pending" />
         <div v-else-if="isStarted" class="flex flex-1 flex-col">
           <iframe :srcdoc="examStore.selectedQuestions[examStore.currentQuestionIndex].html" class="w-full h-full px-4"
@@ -215,7 +236,7 @@ const handleGlobalKeydown = (event: KeyboardEvent) => {
             <Button @click="handleNextQuestion">Next</Button>
           </div>
         </div>
-        <Card class="w-[760px]" v-else>
+        <Card class="lg:w-[750px] md:w-[540px] w-full" v-else>
           <CardHeader>
             <CardTitle>{{ examStore.exam }}</CardTitle>
             <CardDescription>{{ questions?.length }} questions</CardDescription>
@@ -301,3 +322,4 @@ const handleGlobalKeydown = (event: KeyboardEvent) => {
     </div>
   </div>
 </template>
+

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Bird, Book, Bot, Code2, CornerDownLeft, LifeBuoy, Mic, Paperclip, Rabbit, Settings, Settings2, Share, SquareTerminal, SquareUser, Triangle, Turtle } from 'lucide-vue-next'
+import { Bell, SquareTerminal, CircleX, LoaderCircle, CircleUser, Home, LineChart, Menu, Package, Package2, Search, ShoppingCart, Users, Triangle } from 'lucide-vue-next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -31,138 +31,26 @@ const exams = computed(() => {
 </script>
 
 <template>
-  <div class="grid h-screen w-full pl-[53px]">
-    <aside class="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
-      <div class="border-b p-2">
-        <Button variant="outline" size="icon" aria-label="Home">
-          <Triangle class="size-5 fill-foreground" />
-        </Button>
+  <div class="flex flex-col">
+    <Header>
+      <form>
+        <div class="relative">
+          <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input type="search" placeholder="Search products..." v-model="search"
+            class="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3" />
+        </div>
+      </form>
+    </Header>
+    <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6" :class="{ 'justify-center': exams.length === 0 }">
+      <div class="grid gap-4 md:grid-cols-2 lg:gap-6 lg:grid-cols-3" :class="{ 'hidden': exams.length === 0 }">
+        <ExamList :exams="exams" :search="search" />
       </div>
-      <nav class="grid gap-1 p-2">
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button
-              variant="ghost"
-              size="icon"
-              class="rounded-lg bg-muted"
-              aria-label="Playground"
-            >
-              <SquareTerminal class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Playground
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button
-              variant="ghost"
-              size="icon"
-              class="rounded-lg"
-              aria-label="Models"
-            >
-              <Bot class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Models
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button
-              variant="ghost"
-              size="icon"
-              class="rounded-lg"
-              aria-label="API"
-            >
-              <Code2 class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            API
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button
-              variant="ghost"
-              size="icon"
-              class="rounded-lg"
-              aria-label="Documentation"
-            >
-              <Book class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Documentation
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button
-              variant="ghost"
-              size="icon"
-              class="rounded-lg"
-              aria-label="Settings"
-            >
-              <Settings2 class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Settings
-          </TooltipContent>
-        </Tooltip>
-      </nav>
-      <nav class="mt-auto grid gap-1 p-2">
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button
-              variant="ghost"
-              size="icon"
-              class="mt-auto rounded-lg"
-              aria-label="Help"
-            >
-              <LifeBuoy class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Help
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button
-              variant="ghost"
-              size="icon"
-              class="mt-auto rounded-lg"
-              aria-label="Account"
-            >
-              <SquareUser class="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" :side-offset="5">
-            Account
-          </TooltipContent>
-        </Tooltip>
-      </nav>
-    </aside>
-    <div class="flex flex-col">
-      <header class="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
-        <h1 class="text-xl font-semibold">
-          Playground
-        </h1>
-        <Search v-model="search" />
-      </header>
-      <main class="p-4">
-          <!-- <ExamCard />
-          <ExamCard />
-          <ExamCard />
-          <ExamCard /> -->
-          <Skeleton v-if="pending" class="h-[125px] w-[250px] rounded-xl" />
-          <ExamList v-else :exams="exams" />
-      </main>
-    </div>
+      <div class="flex flex-col items-center justify-center flex-1 gap-2" v-if="exams.length === 0">
+        <CircleX class="h-12 w-12 text-muted-foreground" />
+        <h2 class="text-center text-lg font-semibold text-muted-foreground">
+          No exams found
+        </h2>
+      </div>
+    </main>
   </div>
 </template>
