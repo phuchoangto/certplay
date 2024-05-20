@@ -7,6 +7,11 @@ import { Input } from '@/components/ui/input'
 import { computed, ref } from 'vue'
 import ExamList from '@/components/ExamList.vue'
 
+
+definePageMeta({
+  middleware: 'auth'
+})
+
 const { data, pending, error } = useFetch<string[]>('/api/exams', { lazy: true })
 const search = ref('')
 

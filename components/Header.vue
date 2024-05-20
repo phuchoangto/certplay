@@ -17,6 +17,9 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useExamStore } from '@/stores/exam'
 import { onKeyStroke } from '@vueuse/core'
 import {items} from '@/data/nav'
+
+const user = useSupabaseUser()
+const { auth } = useSupabaseClient()
 </script>
 
 <template>
@@ -52,12 +55,12 @@ import {items} from '@/data/nav'
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>{{ user?.user_metadata.full_name }}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem @click="auth.signOut()">Sign out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
