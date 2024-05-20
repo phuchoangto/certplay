@@ -2,6 +2,7 @@
 import {
   Search,
   CircleX,
+  LoaderCircle
 } from 'lucide-vue-next'
 import { Input } from '@/components/ui/input'
 import { computed, ref } from 'vue'
@@ -9,7 +10,11 @@ import ExamList from '@/components/ExamList.vue'
 
 
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
+})
+
+useHead({
+  title: 'Home | Certplay',
 })
 
 const { data, pending, error } = useFetch<string[]>('/api/exams', { lazy: true })
@@ -43,20 +48,24 @@ const exams = computed(() =>
       class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6"
       :class="{ 'justify-center': exams.length === 0 }"
     >
-      <div
-        class="grid gap-4 md:grid-cols-2 lg:gap-6 lg:grid-cols-3"
-        :class="{ hidden: exams.length === 0 }"
-      >
-        <ExamList :exams="exams" />
+      
+      <div class="flex flex-col items-center justify-center flex-1 gap-2" v-if="pending">
+        <LoaderCircle class="size-5 animate-spin" />
       </div>
-      <div
-        v-if="exams.length === 0"
-        class="flex flex-col items-center justify-center flex-1 gap-2"
-      >
+
+      <div class="flex flex-col items-center justify-center flex-1 gap-2" v-else-if="exams.length === 0">
         <CircleX class="h-12 w-12 text-muted-foreground" />
         <h2 class="text-center text-lg font-semibold text-muted-foreground">
           No exams found
         </h2>
+      </div>
+
+      <div
+        class="grid gap-4 md:grid-cols-2 lg:gap-6 lg:grid-cols-3"
+        :class="{ hidden: exams.length === 0 }"
+        v-else
+      >
+        <ExamList :exams="exams" />
       </div>
     </main>
   </div>

@@ -14,6 +14,10 @@ watchEffect(() => {
   }
 })
 
+useHead({
+  title: 'Login | Certplay',
+})
+
 definePageMeta({
   layout: false,
 })

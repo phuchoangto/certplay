@@ -9,7 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useExamStore } from '@/stores/exam'
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import Header from '@/components/Header.vue'
+import { useToast } from '@/components/ui/toast/use-toast'
+import { ToastAction } from '@/components/ui/toast'
+
+const { toast } = useToast()
 
 const examStore = useExamStore()
 const router = useRouter()
@@ -19,8 +22,11 @@ if (!examStore.exam) {
   router.push('/')
 }
 
-const { data: questions, pending, error } = useFetch<Question[]>(`/api/exams/${examStore.exam}`, { lazy: true })
+useHead({
+  title: `${examStore.exam} | Certplay`,
+})
 
+const { data: questions, pending, error } = useFetch<Question[]>(`/api/exams/${examStore.exam}`, { lazy: true })
 const topics = computed(() => questions.value?.map((question) => question.topic).filter((topic, index, self) => self.indexOf(topic) === index) || [])
 
 const selectBy = ref('range')
@@ -33,7 +39,23 @@ watch(selectBy, (value) => examStore.setSelectBy(value))
 const selectAll = ref(false)
 const selectedQuestions = ref<Question[]>([])
 
-const handleStart = () => {
+const handleStart = async () => {
+
+  const action = await $fetch('/api/actions', {
+    async onResponseError({ request, response, options }) {
+      const { statusMessage, message } = response._data;
+      toast({
+        title: statusMessage,
+        description: message,
+        action: statusMessage === 'Limit reached!' ? h(ToastAction, { altText: 'Upgrade' }, {
+          default: () => 'Upgrade',
+        }) : undefined,
+      })
+    },
+    method: 'POST',
+    body: JSON.stringify({ action: 'START_EXAM', details: JSON.stringify({ exam: examStore.exam }) }),
+  })
+
   if (selectAll.value) {
     selectedQuestions.value = questions.value || []
   } else if (selectBy.value === 'range') {
@@ -41,6 +63,7 @@ const handleStart = () => {
   }
 
   examStore.setSelectedQuestions(selectedQuestions.value)
+
   isStarted.value = true
 }
 
@@ -86,11 +109,8 @@ onUnmounted(() => window.removeEventListener('keydown', handleGlobalKeydown))
     <main class="flex flex-1 flex-col justify-center" :class="{ 'items-center': !isStarted }">
       <LoaderCircle v-if="pending" class="animate-spin" />
       <div v-else-if="isStarted" class="flex flex-1 flex-col">
-        <iframe
-          :srcdoc="examStore.selectedQuestions[examStore.currentQuestionIndex].html"
-          class="w-full h-full px-4"
-          id="iframe"
-        ></iframe>
+        <iframe :srcdoc="examStore.selectedQuestions[examStore.currentQuestionIndex].html" class="w-full h-full px-4"
+          id="iframe"></iframe>
         <div class="p-4 border flex justify-center gap-4">
           <Button @click="handlePreviousQuestion">Previous</Button>
           <Sheet>
@@ -98,11 +118,8 @@ onUnmounted(() => window.removeEventListener('keydown', handleGlobalKeydown))
               <Button>Discuss</Button>
             </SheetTrigger>
             <SheetContent class="w-[400px] sm:w-[540px] sm:max-w-[750px]">
-              <iframe
-                :srcdoc="examStore.selectedQuestions[examStore.currentQuestionIndex].discussionHtml"
-                class="w-full h-full px-4"
-                id="iframe"
-              ></iframe>
+              <iframe :srcdoc="examStore.selectedQuestions[examStore.currentQuestionIndex].discussionHtml"
+                class="w-full h-full px-4" id="iframe"></iframe>
             </SheetContent>
           </Sheet>
           <Button @click="handleRevealSolution">Reveal solution</Button>
@@ -161,10 +178,8 @@ onUnmounted(() => window.removeEventListener('keydown', handleGlobalKeydown))
             <div class="items-top flex gap-x-2">
               <Checkbox v-model="selectAll" id="terms1" />
               <div class="grid gap-1.5 leading-none">
-                <label
-                  for="terms1"
-                  class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
+                <label for="terms1"
+                  class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Select all questions
                 </label>
                 <p class="text-sm text-muted-foreground">You agree to our Terms of Service and Privacy Policy.</p>
