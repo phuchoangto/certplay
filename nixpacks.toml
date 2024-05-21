@@ -1,5 +1,5 @@
 [start]
-cmd = node .output/server/index.mjs
+cmd = "node .output/server/index.mjs"
 
 [variables]
 SUPABASE_URL = "https://pxaipuuwlbzpuxlfdyvn.supabase.co"
