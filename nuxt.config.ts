@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     "@nuxtjs/supabase",
     "nuxt-icon",
     "@nuxt/eslint",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
+    "@nuxtjs/kinde"
   ],
   eslint: {
     config: {

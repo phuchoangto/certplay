@@ -42,20 +42,20 @@ const selectedQuestions = ref<Question[]>([])
 
 const handleStart = async () => {
 
-  const action = await $fetch('/api/actions', {
-    async onResponseError({ request, response, options }) {
-      const { statusMessage, message } = response._data;
-      toast({
-        title: statusMessage,
-        description: message,
-        action: statusMessage === 'Limit reached!' ? h(ToastAction, { altText: 'Upgrade' }, {
-          default: () => 'Upgrade',
-        }) : undefined,
-      })
-    },
-    method: 'POST',
-    body: JSON.stringify({ action: 'START_EXAM', details: JSON.stringify({ exam: examStore.exam }) }),
-  })
+  // const action = await $fetch('/api/actions', {
+  //   async onResponseError({ request, response, options }) {
+  //     const { statusMessage, message } = response._data;
+  //     toast({
+  //       title: statusMessage,
+  //       description: message,
+  //       action: statusMessage === 'Limit reached!' ? h(ToastAction, { altText: 'Upgrade' }, {
+  //         default: () => 'Upgrade',
+  //       }) : undefined,
+  //     })
+  //   },
+  //   method: 'POST',
+  //   body: JSON.stringify({ action: 'START_EXAM', details: JSON.stringify({ exam: examStore.exam }) }),
+  // })
 
   if (selectAll.value) {
     selectedQuestions.value = questions.value || []

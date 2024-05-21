@@ -55,7 +55,7 @@ const { auth } = useSupabaseClient()
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{{ user?.user_metadata.full_name ?? user?.email }}</DropdownMenuLabel>
+          <DropdownMenuLabel>{{ $auth.user.id }}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>

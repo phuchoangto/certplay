@@ -8,11 +8,6 @@ import { Input } from '@/components/ui/input'
 import { computed, ref } from 'vue'
 import ExamList from '@/components/ExamList.vue'
 
-
-definePageMeta({
-  middleware: 'auth',
-})
-
 useHead({
   title: 'Home | Certplay',
 })
