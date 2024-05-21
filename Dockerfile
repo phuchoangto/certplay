@@ -6,12 +6,12 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package*.json ./
 
-RUN npm ci --only=production
+RUN yarn install --frozen-lockfile
 
 # Bundle app source
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
 ENV NODE_ENV=production
 ENV NUXT_HOST=0.0.0.0
