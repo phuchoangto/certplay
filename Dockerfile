@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as builder
 
 WORKDIR /usr/src/app
 
@@ -7,6 +7,12 @@ COPY . .
 RUN yarn install
 
 RUN yarn build
+
+FROM gcr.io/distroless/nodejs:14
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/.output /usr/src/app/.output
 
 ENV NODE_ENV=production
 ENV NUXT_HOST=0.0.0.0
