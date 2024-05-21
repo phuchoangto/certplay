@@ -8,7 +8,7 @@ RUN yarn install
 
 RUN yarn build
 
-FROM gcr.io/distroless/nodejs:14
+FROM gcr.io/distroless/nodejs:20
 
 WORKDIR /usr/src/app
 
@@ -20,4 +20,4 @@ ENV NUXT_PORT=3000
 
 EXPOSE 3000
 
-ENTRYPOINT [ "node", ".output/server/index.mjs" ]
+CMD [".output/server/index.mjs"]
