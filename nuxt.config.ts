@@ -5,10 +5,10 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/supabase",
-    "nuxt-icon",
     "@nuxt/eslint",
     "@pinia/nuxt",
-    "@nuxtjs/kinde"
+    "@nuxtjs/kinde",
+    "nuxt-icon"
   ],
   eslint: {
     config: {
