@@ -5,10 +5,3 @@ services:
       dockerfile: .nixpacks/Dockerfile
     ports:
       - "${PORT:-3000}:3000"
-    environment:
-      - NODE_ENV=production
-      # - SUPABASE_URL=${SUPABASE_URL}
-      # - SUPABASE_KEY=${SUPABASE_KEY}
-      - PORT=${PORT:-3000}
-      - NUXT_SUPABASE_URL=${SUPABASE_URL}
-      - NUXT_SUPABASE_KEY=${SUPABASE_KEY}
