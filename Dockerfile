@@ -8,7 +8,7 @@ RUN yarn install
 
 RUN yarn build
 
-FROM gcr.io/distroless/nodejs:20
+FROM gcr.io/distroless/nodejs20-debian12
 
 WORKDIR /usr/src/app
 
